@@ -18,7 +18,7 @@ See if you can figure out how it works.
     
 # codeml analysis
 
-You need to install paml:
+You need to dowload and compile paml from source from [here](http://abacus.gene.ucl.ac.uk/software/)
 
     conda install -c bioconda paml
 
