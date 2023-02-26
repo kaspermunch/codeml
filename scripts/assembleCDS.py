@@ -13,6 +13,9 @@ excluded_species = ['tupBel1', 'mm10', 'canFam3']
 
 def write_phylip(seqs, output_file):
 
+    if not os.path.exists(os.path.dirname(output_file)):
+        os.makedirs(os.path.dirname(output_file))
+
     with open(output_file, 'w') as dest, redirect_stdout(dest):
 
         lengths = [len(x) for x in seqs.values()]
@@ -23,10 +26,13 @@ def write_phylip(seqs, output_file):
             seqs[name] = seqs[name].replace('-', '?')
 
         print(f"{len(seqs)} {seq_length}")
-        for name in seqs:
+        for name in sorted(seqs.keys(), key=lambda x: x != 'hg38'):
             print(f"{name:<10}{seqs[name]}")
 
 def write_fasta(seqs, output_file):
+
+    if not os.path.exists(os.path.dirname(output_file)):
+        os.makedirs(os.path.dirname(output_file))
 
     with open(output_file, 'w') as dest, redirect_stdout(dest):
 
@@ -37,7 +43,7 @@ def write_fasta(seqs, output_file):
         for name in seqs:
             seqs[name] = seqs[name].replace('?', '-')
 
-        for name in seqs:
+        for name in sorted(seqs.keys(), key=lambda x: x != 'hg38'):
             print(f">{name}\n{seqs[name]}")            
 
 # command line arguments
@@ -82,8 +88,12 @@ with gzip.open(fasta_file, 'rt') as f:
         if prev_ucsc_id is not None and ucsc_id != prev_ucsc_id:
             try:
                 # try to extract the ucsc gene name from the ucsc gene id
-                name, version = ucsc_id.rsplit('.', 1)
+                name, version = prev_ucsc_id.rsplit('.', 1)
                 gene_name = id_table.loc[name, 'geneName']
+                chrom = id_table.loc[name, '#chrom']
+
+                is_coding = id_table.loc[name, 'transcriptClass'] == 'coding' and 'pseudo' not in id_table.loc[name, 'transcriptType']
+
             except KeyError:
                 # if that is not possible, we skip the gene
                 skipped += 1
@@ -116,17 +126,17 @@ with gzip.open(fasta_file, 'rt') as f:
                         del cds_alignment[species]                        
 
                 # keep the alignmnets with human and at least two other species
-                if 'hg38' in cds_alignment and len(cds_alignment) >= 3:
-
+                if is_coding and 'hg38' in cds_alignment and len(cds_alignment) >= 2:
+                    
                     # record which species are in the alignment
                     species_included[gene_name] = list(cds_alignment.keys())
 
                     # write phylip file
-                    output_path = os.path.join(output_dir, gene_name + '.phylib')
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.phylib')
                     write_phylip(cds_alignment, output_path)                  
 
                     # write fasta file (in case you need it)
-                    output_path = os.path.join(output_dir, gene_name + '.fa')
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.fa')
                     write_fasta(cds_alignment, output_path)                  
 
                     # remove the species from the tree that were removed from the alignment
@@ -134,7 +144,7 @@ with gzip.open(fasta_file, 'rt') as f:
                     alignment_tree.prune(list(cds_alignment.keys()))
 
                     # write the tree for the alignment
-                    output_path = os.path.join(output_dir, gene_name + '.nw')
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.nw')
                     alignment_tree.write(format=1, outfile=output_path)
                 else:
                     skipped += 1

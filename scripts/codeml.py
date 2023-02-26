@@ -39,6 +39,6 @@ cml.set_options(NSsites=[0, 1, 2, 7, 8]) #  0:one-ratio; 1:neutral; 2:selection;
 cml.ctl_file = args.control_file
 #cml.write_ctl_file() 
 
-cml.run(verbose = True)
+cml.run(verbose = True, command=os.path.abspath('paml4.9j/src/codeml'))
 
 
