@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+steps/
+results/
+paml4.9j/
+.gwf/
+.gwfconf.json
