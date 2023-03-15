@@ -45,7 +45,7 @@ gwf = Workflow(defaults={'account': 'xy-drive'})
 
 # OR: ##########################
 
-phylib_files = glob.glob('steps/genes/chrX/*/*.phylib') + glob.glob('steps/genes/chrY/*/*.phylib')  + glob.glob('steps/genes/chr3/*/*.phylib') + glob.glob('steps/genes/chr1/*/*.phylib')
+phylib_files = glob.glob('steps/genes/*/*/*.phylib') #+ glob.glob('steps/genes/chrY/*/*.phylib')  + glob.glob('steps/genes/chr3/*/*.phylib') + glob.glob('steps/genes/chr1/*/*.phylib')
 
 ###########################
 
