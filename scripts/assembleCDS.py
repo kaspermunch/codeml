@@ -148,26 +148,26 @@ with gzip.open(fasta_file, 'rt') as f, open(discarded_aln_file, 'w') as f_discar
                 # keep the alignmnets with human and at least two other species
                 if is_coding and 'hg38' in cds_alignment and len(cds_alignment) >= 4:
                     
-                    # # record which species are in the alignment
-                    # species_included[gene_name] = list(cds_alignment.keys())
+                    # record which species are in the alignment
+                    species_included[gene_name] = list(cds_alignment.keys())
 
-                    # # write phylip file
-                    # output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.phylib')
-                    # write_phylip(cds_alignment, output_path)                  
+                    # write phylip file
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.phylib')
+                    write_phylip(cds_alignment, output_path)                  
 
-                    # # write fasta file (in case you need it)
-                    # output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.fa')
-                    # write_fasta(cds_alignment, output_path)                  
+                    # write fasta file (in case you need it)
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.fa')
+                    write_fasta(cds_alignment, output_path)                  
 
-                    # # remove the species from the tree that were removed from the alignment
-                    # alignment_tree = tree.copy("newick")
-                    # alignment_tree.prune(list(cds_alignment.keys()))
+                    # remove the species from the tree that were removed from the alignment
+                    alignment_tree = tree.copy("newick")
+                    alignment_tree.prune(list(cds_alignment.keys()))
 
-                    # # write the tree for the alignment
-                    # output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.nw')
-                    # alignment_tree.write(format=1, outfile=output_path)                    
+                    # write the tree for the alignment
+                    output_path = os.path.join(output_dir, chrom, gene_name, gene_name + '.nw')
+                    alignment_tree.write(format=1, outfile=output_path)                    
 
-                    # print(gene_name)
+                    print(gene_name)
 
                     pass
 

@@ -41,12 +41,12 @@ lnL7 = results["NSsites"][7]["lnL"]
 lnL8 = results["NSsites"][8]["lnL"]
 
 if lnL1 < lnL2:    
-    p_values[2] = get_LRT(lnL1,lnL2,1)
+    p_values[2] = get_LRT(lnL1,lnL2,2)
 else:
     p_values[2] = 1
 
 if lnL7 < lnL8:
-    p_values[8] = get_LRT(lnL7,lnL8,1)
+    p_values[8] = get_LRT(lnL7,lnL8,2)
 else:
     p_values[8] = 1
 

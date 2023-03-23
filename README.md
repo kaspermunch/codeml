@@ -12,7 +12,7 @@ From [Multi20way alignments](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/mul
 
 Draft script for producing input files for codeml in phylip format:
 
-    python assembleCDS.py knownCanonical.exonNuc.fa.gz knownGene_GENCODE_V39.txt hg38.20way.nh species_inclusion.csv ~/scratch/genes
+    python scripts/assembleCDS.py data/knownCanonical.exonNuc.fa.gz data/knownGene_GENCODE_V39.txt data/hg38.20way.nh results/species_inclusion.csv steps/cds_data steps/cds_data/discarded_genes.txt
 
 See if you can figure out how it works.
     
