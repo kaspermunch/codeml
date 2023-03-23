@@ -130,6 +130,8 @@ dmypy.json
 
 steps/
 results/
+sandbox/
+data/
 paml4.9j/
 .gwf/
 .gwfconf.json
