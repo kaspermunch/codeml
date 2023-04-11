@@ -26,7 +26,7 @@ You can read about how to call codeml though Python here: https://biopython.org/
 
 Generate alignments:
 
-    python scripts/assembleCDS.py data/knownCanonical.exonNuc.fa.gz data/knownGene_GENCODE_V39.txt data/hg38.20way.nh results/species_inclusion.csv steps/cds_data
+    python scripts/assembleCDS.py data/knownCanonical.exonNuc.fa.gz data/knownGene_GENCODE_V39.txt data/hg38.20way.nh results/species_inclusion.csv results/discarded_aln.txt steps/cds_data
 
 codeml python script:
 

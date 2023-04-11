@@ -35,7 +35,7 @@ cml.set_options(seqtype=1) # * 1:codon models; 2: amino acid models
 #cml.set_options(runmode=0) # 0: user tree; 1: semi-automatic; 2: automatic 3: StepwiseAddition; (4,5):PerturbationNNI
 cml.set_options(model=0) #  0:one-w for all branches; 2: w’s for branches
 cml.set_options(NSsites=[0, 1, 2, 7, 8]) #  0:one-ratio; 1:neutral; 2:selection; 3:discrete; 7:beta; 8:beta&w
-
+cml.set_options(CodonFreq = 2, cleandata = 1, fix_blength = None, fix_omega = 0, ncatG = 1, runmode = 0, fix_kappa = 0, fix_alpha = 1, Small_Diff = .5e-06, method = 0, Malpha = 0, aaDist = 0, RateAncestor = 0, icode = 0, alpha = 0, omega = 1, getSE = 0, noisy = 0, Mgene = 0, kappa = 2, model = 0, ndata = 1)
 cml.ctl_file = args.control_file
 #cml.write_ctl_file() 
 
