@@ -53,17 +53,18 @@ def workflow(working_dir=os.getcwd(), defaults={}, input_files=[]):
 
         # create the name of the codeml output file 
         # same as the the phylib file but we give it a .txt suffix and make its dir the codeml outpur dir
-        codeml_output_file = modpath(phylib_file, suffix='.txt', parent=codeml_output_dir)
-        tmp_file = modpath(phylib_file, suffix='.tmp', parent=codeml_output_dir)
+        codeml_output_file = modpath(phylib_file, suffix='_site.txt', parent=codeml_output_dir)
+        # tmp_file = modpath(phylib_file, suffix='.tmp', parent=codeml_output_dir)
+        tmp_file = modpath(codeml_output_file, suffix='.tmp', parent=codeml_output_dir)
 
         # almost the same for the control file
-        codeml_control_file = modpath(phylib_file, suffix='.ctl', parent=codeml_output_dir)
+        codeml_control_file = modpath(phylib_file, suffix='_site.ctl', parent=codeml_output_dir)
 
         # # add the codeml output file to the list of all output files
         # targets['codeml'].append(codeml_output_file)
 
         # make a gwf target (cluster job) to run a codeml analysis
-        tag = gene_name.replace('-', '_')
+        tag = gene_name.replace('-', '_') + '_site'
         target = gwf.target(name=f'codeml_{tag}',
                 inputs=[phylib_file, tree_file], 
                 outputs={'output': codeml_output_file, 'control': codeml_control_file}, 
@@ -72,10 +73,38 @@ def workflow(working_dir=os.getcwd(), defaults={}, input_files=[]):
                 memory='8g') << f"""
 
         mkdir -p {codeml_output_dir}
-        python scripts/codeml.py {phylib_file} {tree_file} {tmp_file} {os.path.basename(codeml_control_file)} {codeml_output_dir} && mv {tmp_file} {codeml_output_file}
+        python scripts/codeml_site.py {phylib_file} {tree_file} {tmp_file} {os.path.basename(codeml_control_file)} {codeml_output_dir} && mv {tmp_file} {codeml_output_file}
         sleep 10
         """
         targets['codeml'].append(target)
+
+
+
+        codeml_output_file = modpath(phylib_file, suffix='_site_branch.txt', parent=codeml_output_dir)
+        # tmp_file = modpath(phylib_file, suffix='.tmp', parent=codeml_output_dir)
+        tmp_file = modpath(codeml_output_file, suffix='.tmp', parent=codeml_output_dir)
+
+        # almost the same for the control file
+        codeml_control_file = modpath(phylib_file, suffix='_site_branch.ctl', parent=codeml_output_dir)
+
+        # # add the codeml output file to the list of all output files
+        # targets['codeml'].append(codeml_output_file)
+
+        # make a gwf target (cluster job) to run a codeml analysis
+        tag = gene_name.replace('-', '_') + '_site_branch'
+        target = gwf.target(name=f'codeml_{tag}',
+                inputs=[phylib_file, tree_file], 
+                outputs={'output': codeml_output_file, 'control': codeml_control_file}, 
+                cores=1,
+                walltime='06:00:00', 
+                memory='8g') << f"""
+
+        mkdir -p {codeml_output_dir}
+        python scripts/codeml_site_branch.py {phylib_file} {tree_file} {tmp_file} {os.path.basename(codeml_control_file)} {codeml_output_dir} && mv {tmp_file} {codeml_output_file}
+        sleep 10
+        """
+        targets['codeml'].append(target)
+
 
     ###########################################################################
     # parse output from codeml analyses
