@@ -32,10 +32,10 @@ parser.add_argument('output_file', type=str,
 args = parser.parse_args()
 
 results = codeml.read(args.codeml_output_file)
-
+print(results)
 p_values = {}
 
-if results['model'] = 0:
+if results['model'] == 0:
 
     model = 'site'
 
@@ -54,14 +54,14 @@ if results['model'] = 0:
     else:
         p_values[8] = 1
 
-elif results['model'] = 2:
+elif results['model'] == 2:
 
     model = 'site-branch'
 
     pass
 
 else:
-    assert 0
+    assert 0, results['model']
 
 
 gene_name = os.path.splitext(os.path.basename(args.codeml_output_file))[0]
